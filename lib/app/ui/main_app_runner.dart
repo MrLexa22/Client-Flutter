@@ -12,9 +12,7 @@ class MainAppRunner implements AppRunner {
   MainAppRunner(this.env);
   @override
   Future<void> preloadData() async {
-    //init app
     initDi(env);
-    //init config
   }
 
   @override

@@ -287,18 +287,20 @@ class __UpdateOperationDialogState extends StatelessWidget {
                 const SizedBox(height: 16),
                 TextButton(
                   onPressed: () {
-                    context
-                        .read<DetailOperationCubit>()
-                        .updateOperation(
-                          operationEntity.idOperation,
-                          numberOperationController.text,
-                          nameOperationController.text,
-                          descriptionOperationController.text,
-                          DateTime.parse(dateOperationController.text),
-                          double.parse(valueOperationController.text),
-                          dropdownValue,
-                        )
-                        .then((_) => Navigator.of(context).pop());
+                    try {
+                      context
+                          .read<DetailOperationCubit>()
+                          .updateOperation(
+                            operationEntity.idOperation,
+                            numberOperationController.text,
+                            nameOperationController.text,
+                            descriptionOperationController.text,
+                            DateTime.parse(dateOperationController.text),
+                            double.parse(valueOperationController.text),
+                            dropdownValue,
+                          )
+                          .then((_) => Navigator.of(context).pop());
+                    } catch (_) {}
                   },
                   child: const Text("Изменить операцию"),
                 ),

@@ -34,55 +34,52 @@ class OperationList extends StatelessWidget {
     return BlocConsumer<OperationCubit, OperationState>(
       listener: (context, state) {},
       builder: (context, state) {
-        if (state.operationsList.isNotEmpty) {
-          return Column(
-            children: [
-              TextButton(
-                onPressed: () {
-                  context.read<OperationCubit>().fetchOperations();
-                },
-                child: const Text("Обновить список (без фильтров и поиска)"),
-              ),
-              const SizedBox(height: 5),
-              const Text("Поиск: "),
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 0, bottom: 0, left: 15, right: 15),
-                child: TextFormField(
-                  controller: searchController,
-                  decoration: const InputDecoration(
-                    labelText: "Поиск",
-                    border: OutlineInputBorder(),
-                  ),
+        return Column(
+          children: [
+            TextButton(
+              onPressed: () {
+                context.read<OperationCubit>().fetchOperations();
+              },
+              child: const Text("Обновить список (без фильтров и поиска)"),
+            ),
+            const SizedBox(height: 5),
+            const Text("Поиск: "),
+            Padding(
+              padding:
+                  const EdgeInsets.only(top: 0, bottom: 0, left: 15, right: 15),
+              child: TextFormField(
+                controller: searchController,
+                decoration: const InputDecoration(
+                  labelText: "Поиск",
+                  border: OutlineInputBorder(),
                 ),
               ),
-              const Text("Фильтрация по удалённым: "),
-              const DropdownButton_FilterDeleted(),
-              const Text("Фильтрация по категории: "),
-              const DropdownButton_FilterCategory(),
-              TextButton(
-                onPressed: () {
-                  context.read<OperationCubit>().fetchOperationsWithFilters(
-                      dropdownValue_deleted,
-                      dropdownValue_category,
-                      searchController.text);
+            ),
+            const Text("Фильтрация по удалённым: "),
+            const DropdownButton_FilterDeleted(),
+            const Text("Фильтрация по категории: "),
+            const DropdownButton_FilterCategory(),
+            TextButton(
+              onPressed: () {
+                context.read<OperationCubit>().fetchOperationsWithFilters(
+                    dropdownValue_deleted,
+                    dropdownValue_category,
+                    searchController.text);
+              },
+              child: const Text("Применить фильтры"),
+            ),
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: state.operationsList.length,
+                itemBuilder: (context, index) {
+                  return OperationItem(
+                      operationEntity: state.operationsList[index]);
                 },
-                child: const Text("Применить фильтры"),
               ),
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: state.operationsList.length,
-                  itemBuilder: (context, index) {
-                    return OperationItem(
-                        operationEntity: state.operationsList[index]);
-                  },
-                ),
-              ),
-            ],
-          );
-        }
-        return const SizedBox.shrink();
+            ),
+          ],
+        );
       },
     );
   }
